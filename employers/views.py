@@ -12,3 +12,9 @@ class EmployerList(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+class EmployerDetails(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = EmployerSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Employer.objects.filter(user=self.request.user)
